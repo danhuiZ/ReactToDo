@@ -3,7 +3,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const dummyData =["Eat", "Sleep", "Beat Doudou", "Karaoke", "Live life"]
+const dummyData =[
+  { taskText: "Catch 'em all",
+  completed: true },
+  { taskText: "Eat",
+  completed: false },
+  { taskText: "Sleep",
+  completed: false },
+  { taskText: "Beat Doudou",
+  completed: false },
+  { taskText: "Karaoke",
+  completed: false },
+  { taskText: "Live life",
+  completed: false }]
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -12,7 +24,7 @@ class TodoList extends React.Component {
   render(){
     return(
       <ul>
-        {this.props.todo.map((item) => <Todo key={item} item={item} />)}
+        {this.props.todos.map((item) => <Todo key={item.taskText} item={item.taskText} completed={item.completed} />)}
       </ul>
     )
   }
@@ -23,8 +35,12 @@ class Todo extends React.Component {
     super(props);
   }
   render() {
+    const todoItem = (this.props.completed) ? <strike>{this.props.item}</strike> : this.props.item
     return(
-      <li><input type="checkbox"></input>{this.props.item}</li>
+      <li className="item">
+        <input type="checkbox"></input>
+        {todoItem}
+      </li>
     )
   }
 }
@@ -48,12 +64,20 @@ class InputLine extends React.Component {
 class TodoApp extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      todos: []
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      todos: dummyData
+    })
   }
   render() {
     return(
       <div>
         <InputLine />
-        <TodoList todo={this.props.todo}/>
+        <TodoList todos={this.state.todos} />
       </div>
     )
   }
@@ -61,4 +85,4 @@ class TodoApp extends React.Component {
 
 
 
-ReactDOM.render(<TodoApp todo={dummyData} />, document.getElementById('root'));
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
