@@ -9,7 +9,7 @@ class Todo extends React.Component {
     const todoItem = (this.props.completed) ? <strike>{this.props.item}</strike> : this.props.item
     return(
       <li className="item">
-        <input type="checkbox"></input>
+        <button type="button" onClick={() => this.props.xClick()}>x</button>
         {todoItem}
       </li>
     )
